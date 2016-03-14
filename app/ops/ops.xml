@@ -1,0 +1,7 @@
+<uwsgi>
+    <socket>127.0.0.1:8630</socket>
+    <chdir>/opt/pythontab</chdir>
+    <module>login.wsgi:application</module>
+    <processes>1</processes>
+    <daemonize>/tmp/uwsgi.log</daemonize>
+</uwsgi>
