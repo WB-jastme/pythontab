@@ -1,0 +1,87 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>运维管理后台</title>
+    <link rel="stylesheet" href="../static/css/bootstrap-combined.min.css">
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="navbar">
+                    <div class="navbar-inner">
+                        <div class="container-fluid">
+                    	    <a class="btn btn-navbar" data-target=".navbar-responsive-collapse" data-toggle="collapse"></a> <a class="brand" href="#">jastme</a>
+                    	    <a class="btn btn-navbar" data-target=".navbar-responsive-collapse" data-toggle="collapse"></a> <a class="brand" href="#"></a>
+                    	        <div class="nav-collapse collapse navbar-responsive-collapse">
+                                    <ul class="nav">
+                                        <li>
+                                            <a href="{% url 'DevOps' %}">服务器列表</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'documents' %}">文档中心</a>
+                                        </li>
+                                        <li class="active">
+                                            <a href="{% url 'logs' %}">日志查询</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'an_log' %}">日志分析</a>
+                                        </li>
+										<li>
+                                            <a href="{% url 'autodevops' %}">自动化</a>
+                                        </li>
+                                    </ul>
+                                    <ul class="nav pull-right">
+									    <li>
+                                            <a>你好,{{ user }}</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'mylogout' %}">注销</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-header">
+                    <h1>
+                        网站建设中
+                    </h1>
+                </div>
+            </div>
+        </div>
+	</div>
+	<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+		    <form action="" method="POST">
+			<h4 class="text-left">
+			    服务器: <input type="text" list="server" name="server" />
+                <datalist id="server">
+                    <option label="web" value="web_server" />
+                    <option label="app" value="app_server" />
+                    <option label="other" value="other_server" />
+                </datalist>
+                日志名称 <input placeholder="xxx.log" type="text" name="logname">
+				开始时间 <input placeholder="10:00:00" type="text" name="starttime">
+				结束时间 <input placeholder="12:30:00" type="text" name="endtime">
+				关键字 <input placeholder="keyword" type="text" name="keyword">
+				<input type="hidden"><button class="btn btn-info pull-right" contenteditable="true" type="submit">提取日志</button>
+			</h4>
+			</form>
+		</div>
+	</div>
+	<div class="row-fluid">
+	    {% for i in content %}
+		<div class="span12" style="word-break: break-all; line-height:28px;border:1px solid #ccc;background:#f5f5f5;padding:10px;margin-left:0" >                
+                    {{ i }}
+		</div>
+		{% endfor %}
+	</div>
+    </div>
+</body>
+</html>

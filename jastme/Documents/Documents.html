@@ -1,0 +1,136 @@
+﻿<!DOCTYPE HTML>
+<html>
+{% load pagination_tags %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>运维管理后台</title>
+    <link rel="stylesheet" href="/static/css/bootstrap-combined.min.css">
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+	<style>
+		.limit_h {height:60px;overflow:hidden}
+		.spec_h {width:800px;line-height:25px;text-index:2em;}
+	</style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="navbar">
+                    <div class="navbar-inner">
+                        <div class="container-fluid">
+                    	    <a class="btn btn-navbar" data-target=".navbar-responsive-collapse" data-toggle="collapse"></a> <a class="brand" href="#">jastme</a>
+                    	    <a class="btn btn-navbar" data-target=".navbar-responsive-collapse" data-toggle="collapse"></a> <a class="brand" href="#"></a>
+                    	        <div class="nav-collapse collapse navbar-responsive-collapse">
+                                    <ul class="nav">
+                                        <li>
+                                            <a href="{% url 'DevOps' %}">服务器列表</a>
+                                        </li>
+                                        <li class="active">
+                                            <a href="{% url 'documents' %}">文档中心</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'logs' %}">日志查询</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'an_log' %}">日志分析</a>
+                                        </li>
+										<li>
+                                            <a href="{% url 'autodevops' %}">自动化</a>
+                                        </li>
+                                    </ul>
+                                    <ul class="nav pull-right">
+									    <li>
+                                            <a>你好,{{ user }}</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'mylogout' %}">注销</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-header">
+                    <h1>
+                        网站建设中
+                    </h1>
+                </div>
+				<div class="container-fluid">
+				<a href="{% url 'adddocuments' %}" class="btn btn-warning btn-large" type="button">添加文档</a>
+	            <div class="row-fluid">
+		            <div class="span2">
+			            <ul class="nav nav-list">
+				            <li class="nav-header">
+					            文档汇总
+							<form action="" method="POST">
+				            </li>
+						 {% autopaginate project 5 %}
+				                 {% for k in project %}
+				            <li>
+							     <a href="{% url 'doc_filter' k.category %}">{{k.category}}</a>
+					             <!--<input type="hidden" value="{{k.category}}" name="{{k.category}}"><button class="btn btn-link" type="submit">{{ k.category }}</button>-->
+				            </li>
+				                 {% endfor %}
+						    </form>
+			            </ul>
+						 {% paginate %}
+		            </div>
+		            <div class="span10">
+                        <table class="table table-striped table table-hover">
+                            <tr>
+				                <td>标题</td>
+					            <td>分类</td>
+					            <td>作者</td>
+					            <td>时间</td>
+					            <td>正文</td>
+								<td>操作</td>
+				            </tr>
+						{% autopaginate doc 5 %}
+				                {% for i in doc %}
+				            <tr>
+				                <td>{{ i.title }}</td>
+					            <td>{{ i.category }}</td>
+					            <td>{{ i.author }}</td>
+					            <td>{{ i.date }}</td>
+					            <td>
+									<div class="limit_h spec_h">
+										{{ i.text }}
+									</div>
+									<a href="javascript:;" class="more_show">更多.....</a>
+								</td>
+								<td><a href="{% url 'doc_modify' i.id %}"><button class="btn btn-success">修改
+								<a href="{% url 'doc_delete' i.id %}"><button class="btn btn-danger">删除</td>
+				            </tr>
+				                {% endfor %}
+                        </table>
+				<span class="badge">{% paginate %}</span>
+		           </div>
+	           </div>
+               </div>
+            </div>
+        </div>
+	</div>
+	<script>
+		jQuery('.spec_h').each(function(i,o) {
+			var _this = jQuery(this);
+			var parray = jQuery(o).html().split('||');
+			_this.html('');
+			jQuery.each(parray, function(i,v) {
+				_this.append('<p>'+v+'</p>')
+			})
+		});
+		jQuery('.more_show').on('click', function() {
+			if(jQuery(this).html() == '更多.....') {
+				jQuery(this).prev().removeClass('limit_h');
+				jQuery(this).html('隐藏');
+			}else {
+				jQuery(this).prev().addClass('limit_h');
+				jQuery(this).html('更多.....');
+			}
+			
+		});	
+	</script>
+</body>
+</html>

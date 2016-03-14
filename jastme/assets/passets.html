@@ -1,0 +1,54 @@
+{% include '/var/www/jastme/base.html' %}
+<!-- right -->
+<div id="xt-right">
+    <div class="xt-bt">资产管理----&gt;个人主机</div>
+    <div class="xt-input">
+       <span><button><a href="{% url 'addserver' %}" class="btn btn-warning btn-large">添加</a></button></span>
+	<span><form class="form-search" action="" method="POST"><span><input style="height:35px;width:100%" class="pull-right" type="text" /></span><button class="btn green-int btn-large pull-right" contenteditable="true" type="submit">查找</button></form></span>
+    </div>
+    <div class="xt-table">
+        <table cellpadding="0" cellspacing="0" border="1" bgcolor="#dcdcdc" width="100%">
+            <tr>
+		<th style="text-align: center">ID</th>
+		<th style="text-align: center">编号</th>
+		<th style="text-align: center">部门</th>
+		<th style="text-align: center">使用人</th>
+		<th style="text-align: center">资产类型</th>
+		<th style="text-align: center">型号</th>
+		<th style="text-align: center">CPU</th>
+		<th style="text-align: center">内存</th>
+		<th style="text-align: center">IP地址</th>
+		<th style="text-align: center">MAC地址</th>
+            </tr>
+			{% for i in passet %}
+            <tr>
+                <td>{{ i.serial_number }}</td>
+                <td>{{ i.department }}</td>
+		<td>{{ i.owner }}</td>
+                <td>{{ i.assets_type }}</td>
+                <td>{{ i.version }}</td>
+                <td>{{ i.cpu }}</td>
+                <td>{{ i.memory }}</td>
+                <td>{{ i.ipaddress }}</td>
+                <td>{{ i.macaddress }}</td>
+            </tr>
+			{% endfor %}
+
+        </table>
+    </div>
+    <div class="xt-fenye">
+        <div class="xt-fenye-left">当前第 1 / 270 页,每页10条，共 2696条记录</div>
+        <div class="xt-fenye-right">
+            <a href="#">首页</a>
+            <a href="#">上一步</a>
+            <a href="#">下一步</a>
+            <a href="#">尾页</a>
+            <input type="text" name="text" />
+            <a href="#" class="xt-link">跳转</a>
+        </div>
+    </div>
+</div>
+</div>
+
+</body>
+</html>
