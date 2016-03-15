@@ -50,7 +50,15 @@ server {
 
 }
 ```
-
+##DEBUG MODE
+without static resource
+```
+sh start.sh
+```
+##PUBLISH MODE
+```
+sh uwsgi_nginx.sh start
+```
 ##the demo
 ```
 http://52.79.111.129
