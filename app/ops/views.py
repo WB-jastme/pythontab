@@ -98,13 +98,13 @@ def check_log(request):
     
     try:
         m=['start comsume from zookeeper\r\n if only this information,no log comsume']
-        client = KafkaClient(hosts="172.31.9.125:2181,172.31.9.125:2182,172.31.9.125:2183")
-        topic = client.topics['t_nginx']
+        client = KafkaClient(hosts="172.31.16.161:2181")
+        topic = client.topics['pythontab']
         balanced_consumer= topic.get_balanced_consumer(
             consumer_group='group1',
             auto_commit_enable=True,
             consumer_timeout_ms=5000,
-            zookeeper_connect='172.31.9.125:2181,172.31.9.125:2182,172.31.9.125:2183'
+            zookeeper_connect='172.31.16.161:2181'
         )
         for message in balanced_consumer:
             if message is not None:
