@@ -3,7 +3,6 @@
 nginx.conf
 
 server {
-
     listen   80;
     server_name  your sitename;
     access_log /var/log/nginx/access.log ;
@@ -18,5 +17,4 @@ server {
             root  /var/www/jastme/;
             index  index.html;
     }
-
 }
