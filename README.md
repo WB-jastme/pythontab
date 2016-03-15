@@ -2,9 +2,10 @@
 
 nginx.conf
 
-######
+######---------------------------------------
 
-server {
+server {  
+
     listen   80;
     server_name  your sitename;
     access_log /var/log/nginx/access.log ;
