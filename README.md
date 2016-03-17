@@ -61,5 +61,5 @@ sh uwsgi_nginx.sh start
 ```
 ##the demo
 ```
-http://52.79.111.129
+http://52.79.136.10/
 ```
