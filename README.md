@@ -1,7 +1,7 @@
 # pythontab
 
 ###install packages
-
+####ubuntu
 ```
 apt-get install nginx nmap python-dev ipython mysql-server libmysqld-dev ansible;
 pip install uwsgi;
@@ -21,7 +21,6 @@ pip install mysql-python;
 CREATE DATABASE `jastme` /*!40100 DEFAULT CHARACTER SET utf8 */;
 GRANT ALL PRIVILEGES ON jastme.* TO 'jastme'@'127.0.0.1' IDENTIFIED BY 'jastme';
 ```
-#####ubuntu server
 
 ```
 cd /pythontab/app;
@@ -29,7 +28,6 @@ python manage.py syncdb
 ```
 ###nginx.conf
 
-###---------------------------------------
 ```
 server {  
 
