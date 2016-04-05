@@ -1,4 +1,5 @@
-﻿from django.shortcuts import render
+﻿# -*- coding:utf-8 -*-
+from django.shortcuts import render
 from django.contrib import auth
 # Create your views here.
 from django.shortcuts import render_to_response
@@ -9,7 +10,7 @@ from django.template import Context,RequestContext
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from ops.models import server,passets
+from ops.models import server,inventory
 
 # test enviroment clean nginx cache
 import commands
@@ -44,43 +45,110 @@ def mylogout(request):
     return HttpResponseRedirect('/')
 
 #index
+@login_required
 def main(request):
-    return render_to_response('main/main.html')
+    return render_to_response('mysite/root/index.html',{'user':request.user},context_instance=RequestContext(request))
 
 @login_required
-def assets(request):
-    asset=server.objects.all()
-    return render_to_response('assets/assets.html',{'user':request.user,'asset':asset},context_instance=RequestContext(request))
-
+def IDC_SC(request):
+    servers=server.objects.filter(idc="sc")
+    return render_to_response('mysite/servers/idc_sc.html',{'user':request.user,'servers':servers},context_instance=RequestContext(request))
 
 @login_required
-def addserver(request):
+def IDC_BJ(request):
+    servers=server.objects.filter(idc="bj")
+    return render_to_response('mysite/servers/idc_bj.html',{'user':request.user,'servers':servers},context_instance=RequestContext(request))
+
+@login_required
+def IDC_SH(request):
+    servers=server.objects.filter(idc="sh")
+    return render_to_response('mysite/servers/idc_sh.html',{'user':request.user,'servers':servers},context_instance=RequestContext(request))
+
+@login_required
+def add_server(request):
     if request.method == 'POST':
-        vhostname = request.POST['hostname']
-        vband = request.POST['band']
-        vraid = request.POST['raid']
-        vdisk = request.POST['disk']
-        vmemory = request.POST['memory']
-        vcpu = request.POST['cpu']
-        vinterface_out = request.POST['interface_out']
-        vinterface_in = request.POST['interface_in']
-        vos = request.POST['os']
-        vsn = request.POST['sn']
-        vfan = request.POST['fan']
-        vowner = request.POST['owner']
-        vtime = request.POST['time']
-        ps=server(hostname=vhostname,band=vband,raid=vraid,disk=vdisk,memory=vmemory,cpu=vcpu,interface_out=vinterface_out,interface_in=vinterface_in,os=vos,sn=vsn,fixed_assets_encoding=vfan,owner=vowner,time=vtime)
+        hostname = request.POST['hostname']
+        band = request.POST['band']
+        raid = request.POST['raid']
+        disk = request.POST['disk']
+        memory = request.POST['memory']
+        cpu = request.POST['cpu']
+        interface_out = request.POST['in_out']
+        interface_in = request.POST['in_in']
+        os = request.POST['os']
+        sn = request.POST['sn']
+        idc = request.POST['idc']
+        ps=server(hostname=hostname,
+                  band=band,
+                  raid=raid,
+                  disk=disk,
+                  memory=memory,
+                  cpu=cpu,
+                  interface_out=in_out,
+                  interface_in=in_in,
+                  os=os,
+                  sn=sn,
+                  idc=idc)
         ps.save()
-        return HttpResponseRedirect('/assets')
+        if idc == "sc":
+            return HttpResponseRedirect('/IDC_SC')
+        elif idc == "bj":
+            return HttpResponseRedirect('/IDC_BJ')
+        elif idc == "SH":
+            return HttpResponseRedirect('/IDC_SH')
+        else:
+            pass
     else:
-        return render_to_response('assets/addserver.html')
+        return render_to_response('mysite/servers/add_server.html')
 
-#passets
+import commands
 @login_required
-def personal(request):
-    passet=passets.objects.all()
-    return render_to_response('assets/passets.html',{'user':request.user,'passet':passet},context_instance=RequestContext(request))
+def ansible_adhoc(request):
+    group=inventory.objects.all()
+    if request.method == 'POST':
+        hosts = request.POST['hosts']
+        module = request.POST['module']
+        script = request.POST['script']
+        print hosts,module,script
+        try:
+            if module == 'setup':
+                m=commands.getoutput(''' ansible %s -m %s ''' %(hosts,module))
+                m=m.split('\n')
+                command = ''' ansible %s -m %s ''' %(hosts,module)
+                return render_to_response('mysite/ansible/ansible_ad_hoc.html',{'groups':group,'reslut':m,'command':command},context_instance=RequestContext(request))
+            elif module == 'command':    
+                m=commands.getoutput(''' ansible %s -m %s -a "%s" ''' %(hosts,module,script))
+                m=m.split('\n')
+                command = ''' ansible %s -m %s -a "%s" ''' %(hosts,module,script)
+                return render_to_response('mysite/ansible/ansible_ad_hoc.html',{'groups':group,'reslut':m,'command':command},context_instance=RequestContext(request))
+            else:
+                m=commands.getoutput(''' ansible %s -m %s -a "sh %s" ''' %(hosts,module,script))
+                m=m.split('\n')
+                command = ''' ansible %s -m %s -a "sh %s" ''' %(hosts,module,script)
+                return render_to_response('mysite/ansible/ansible_ad_hoc.html',{'groups':group,'reslut':m,'command':command},context_instance=RequestContext(request))
+        except Exception as m:
+            m=m.split('\n')
+            return render_to_response('mysite/ansible/ansible_ad_hoc.html',{'groups':group,'reslut':m},context_instance=RequestContext(request))
+    return render_to_response('mysite/ansible/ansible_ad_hoc.html',{'groups':group},context_instance=RequestContext(request))   
 
+@login_required
+def ansible_playbook(request):
+    '''
+    查看playbook然后执行,确认
+    '''
+    group=inventory.objects.all()
+    if request.method == 'POST':
+        playbook = request.POST['playbook']
+        try:
+            m=commands.getoutput(''' ansible-playbook /etc/ansible/playbooks/%s ''' %(playbook))
+            m=m.split('\n')
+            command = ''' ansible-playbook /etc/ansible/playbooks/%s ''' %(playbook)
+            return render_to_response('mysite/ansible/ansible_playbook.html',{'groups':group,'command':command,'reslut':m},context_instance=RequestContext(request))
+        except Exception as m:
+            m=m.split('\n')
+            return render_to_response('mysite/ansible/ansible_ad_hoc.html',{'groups':group,'reslut':m},context_instance=RequestContext(request))
+    return render_to_response('mysite/ansible/ansible_playbook.html',{'groups':group},context_instance=RequestContext(request)) 
+        
 #interface
 @login_required
 def clean_cache(request):
@@ -91,34 +159,33 @@ def clean_cache(request):
     except Exception as m:
         return render_to_response('interface/clean_cache.html',{'result':m})
 
-#check_log
 #@login_required
 from pykafka import KafkaClient
-def check_log(request):
-    
-    try:
-        m=['start comsume from zookeeper\r\n if only this information,no log comsume']
-        client = KafkaClient(hosts="172.31.16.161:2181")
-        topic = client.topics['pythontab']
-        balanced_consumer= topic.get_balanced_consumer(
-            consumer_group='group1',
-            auto_commit_enable=True,
-            consumer_timeout_ms=5000,
-            zookeeper_connect='172.31.16.161:2181'
-        )
-        for message in balanced_consumer:
-            if message is not None:
-                 m.append(message.value)
-                 
-                 print m
-            else:
-                 m='no logs'
-                 print m
-        return render_to_response('interface/log.html',{'result':m})
-    except Exception as m:
-        print m
-        return render_to_response('interface/log.html',{'result':m})
-
+def comsumer_log(request):
+    if request.method == 'POST':
+        t=request.POST['topic']
+        try:
+            m=['start comsume from zookeeper\r\n if only this information,no logs in kafka']
+            client = KafkaClient(hosts="192.168.1.1:2181")
+            type(t)
+            t=t.encode('utf8')
+            topic = client.topics[t]
+            balanced_consumer= topic.get_balanced_consumer(
+                consumer_group='group1',
+                auto_commit_enable=True,
+                consumer_timeout_ms=1000,
+                zookeeper_connect='192.168.1.1:2181'
+            )
+            for message in balanced_consumer:
+                if message is not None:
+                     m.append(message.value)
+                else:
+                     m='no logs'
+            return render_to_response('mysite/logs/comsumer_log.html',{'result':m})
+        except Exception as m:
+            return render_to_response('mysite/logs/comsumer_log.html',{'result':m})
+    else:
+        return render_to_response('mysite/logs/comsumer_log.html',context_instance=RequestContext(request))
 #ops
 @login_required
 def ops(request):

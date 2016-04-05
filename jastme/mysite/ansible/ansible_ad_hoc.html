@@ -1,0 +1,78 @@
+{% include '/var/www/jastme/mysite/templates/header_right.html' %}
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Ansible
+            <small>ad-hoc</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>ansible</a></li>
+            <li><a href="#">ad-hoc</a></li>
+            <li class="active">command</li>
+          </ol>
+        </section>
+
+          <!-- SELECT2 EXAMPLE -->
+          <form id="ansible" method="post">
+          <div class="box box-default">
+            <div class="box-header with-border">
+              <h3 class="box-title">Select2</h3>
+              <div class="box-tools pull-right">
+                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+              </div>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Ansible inventory groups</label>
+                    <select class="form-control select2" style="width: 100%;" name="hosts">
+                      {% for group in groups %}
+                      <option>{{ group.host }}</option>
+                      {% endfor %}
+                    </select>
+                  </div><!-- /.form-group -->
+                  <div class="form-group">
+                    <label>Ansible module</label>
+                    <select class="form-control select2" style="width: 100%;" name="module">
+                      <!--<option selected="selected">Alabama</option>-->
+                      <option>setup</option>
+                      <option>shell</option>
+                      <option>command</option>
+                    </select>
+                  </div><!-- /.form-group -->
+                  <label>script</label>
+                  <p class="margin">Full Command --&gt <code>ansible [Ansible inventory groups] -m [Ansible module] "df -h"</code></p>
+                   <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" name="script">
+                    <span class="input-group-btn">
+                      <button class="btn btn-info btn-flat" type="submit">Go!</button>
+                    </span>
+                   </form>
+                   </div><!-- /input-group -->
+                </div><!-- /.col -->
+              </div><!-- /.row -->
+            </div><!-- /.box-body -->
+          </div><!-- /.box -->
+          <h1>
+            <small>Ansible Ad-Hoc Reslut-->command : </small>
+            <code>{{ command }}</code>
+          </h1>
+          <section class="content">
+          
+          {% for info in reslut %}
+          <div>
+             <code>
+             {{ info }}
+             </code>
+          </div>
+          {% endfor %}
+          </section>
+          </div>
+         </div>
+
+{% include '/var/www/jastme/mysite/templates/foot.html' %}

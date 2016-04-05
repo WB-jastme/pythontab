@@ -1,0 +1,60 @@
+{% include '/var/www/jastme/mysite/templates/header_right.html' %}
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Flume+Zookeeper+Kafka+Pykafka
+            <small>Cluster</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> </a></li>
+            <li><a href="#"> </a></li>
+            <li class="active">play</li>
+          </ol>
+        </section>
+
+          <!-- SELECT2 EXAMPLE -->
+          <form id="log" method="post">
+          <div class="box box-default">
+            <div class="box-header with-border">
+              <h3 class="box-title">Select2</h3>
+              <div class="box-tools pull-right">
+                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+              </div>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                  <label>The topic that you want comsume</label>
+                  <p class="margin">tpoic<code>nothing</code></p>
+                   <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" name="topic">
+                    <span class="input-group-btn">
+                      <button class="btn btn-info btn-flat" type="submit">Go!</button>
+                    </span>
+                   </form>
+                   </div><!-- /input-group -->
+                </div><!-- /.col -->
+              </div><!-- /.row -->
+            </div><!-- /.box-body -->
+          </div><!-- /.box -->
+          <h1>
+            <small>Comsume by pykafka</small>
+          </h1>
+          <section class="content">
+          {% for info in result %}
+          <div>
+             <code>
+             {{ info }}
+             </code>
+          </div>
+          {% endfor %}
+          </section>
+          </div>
+         </div>
+
+{% include '/var/www/jastme/mysite/templates/foot.html' %}

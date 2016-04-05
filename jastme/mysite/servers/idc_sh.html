@@ -1,0 +1,65 @@
+{% include '/var/www/jastme/mysite/templates/header_right.html' %}
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            IDC
+            <small>上海</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>服务器</a></li>
+            <li><a href="#">上海</a></li>
+            <li class="active">详细列表</li>
+          </ol>
+        </section>
+
+
+
+              <div class="box">
+                <div class="box-header">
+                  <h3 class="box-title">服务器列表</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                  <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>主机名</th>
+                        <th>品牌</th>
+                        <th>系统</th>
+                        <th>阵列</th>
+                        <th>硬盘</th>
+                        <th>内存</th>
+                        <th>CPU</th>
+                        <th>外网</th>
+                        <th>内网</th>
+                        <th>SN</th>
+                        <th>IDC</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for server in servers %}
+                      <tr>
+                        <td>{{ server.hostname }}</td>
+                        <td>{{ server.band }}</td>
+                        <td>{{ server.os }}</td>
+                        <td>{{ server.raid }}</td>
+                        <td>{{ server.disk }}</td>
+                        <td>{{ server.memory }}</td>
+                        <td>{{ server.cpu }}</td>
+                        <td>{{ server.in_out }}</td>
+                        <td>{{ server.in_in }}</td>
+                        <td>{{ server.sn }}</td>
+                        <td>{{ server.idc }}</td>
+                      </tr>
+                    {% endfor %} 
+                    </tbody>
+                  </table>
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+{% include '/var/www/jastme/mysite/templates/foot.html' %}

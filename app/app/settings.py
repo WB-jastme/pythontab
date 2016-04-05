@@ -37,7 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ops',
-    'linaro_django_pagination',
+#    'linaro_django_pagination',
 #    'pagination',
 )
 
@@ -49,7 +49,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'linaro_django_pagination.middleware.PaginationMiddleware',
+#    'linaro_django_pagination.middleware.PaginationMiddleware',
 #    'pagination.middleware.PaginationMiddleware',
 )
 
