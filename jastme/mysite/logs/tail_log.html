@@ -1,0 +1,68 @@
+{% include '/var/www/jastme/mysite/templates/header_right.html' %}
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Ubuntu
+            <small>tail</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>ubuntu</a></li>
+            <li><a href="#">command</a></li>
+            <li class="active">tail</li>
+          </ol>
+        </section>
+
+          <!-- SELECT2 EXAMPLE -->
+          <form id="tail" method="post">
+          <div class="box box-default">
+            <div class="box-header with-border">
+              <h3 class="box-title">Select2</h3>
+              <div class="box-tools pull-right">
+                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+              </div>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>all logs in /tmp</label>
+                    <select class="form-control select2" style="width: 100%;" name="logs">
+                      {% for log in alllog %}
+                      <option>{{ log }}</option>
+                      {% endfor %}
+                    </select>
+                  </div><!-- /.form-group -->
+                  <label>lines you want show</label>
+                  <p class="margin">lines<code>!!!</code></p>
+                   <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" name="lines">
+                    <span class="input-group-btn">
+                      <button class="btn btn-info btn-flat" type="submit">Go!</button>
+                    </span>
+                   </form>
+                   </div><!-- /input-group -->
+                </div><!-- /.col -->
+              </div><!-- /.row -->
+            </div><!-- /.box-body -->
+          </div><!-- /.box -->
+          <h1>
+            <small>show {{ lines }} lines with {{ logs }}</small>
+            <code>tail -n {{ lines }} {{ logs }}</code>
+          </h1>
+          <section class="content">
+          {% for info in result %}
+          <div>
+             <code>
+             {{ info }}
+             </code>
+          </div>
+          {% endfor %}
+          </section>
+          </div>
+         </div>
+
+{% include '/var/www/jastme/mysite/templates/foot.html' %}

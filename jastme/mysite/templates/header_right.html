@@ -275,9 +275,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <a href="#"><i class="fa fa-files-o"></i> <span>日志操作</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
                 <li><a href="{% url 'comsumer_log' %}"><i class="fa fa-circle-o text-blue"></i>日志消费</a></li>
-                <li><a href="#"><i class="fa fa-circle-o text-blue"></i>日志查看</a></li>
-                <li><a href="#"><i class="fa fa-circle-o text-blue"></i>日志分析</a></li>
-                <li><a href="#"><i class="fa fa-circle-o text-blue"></i>日志下载</a></li>
+                <li><a href="{% url 'tail_log' %}"><i class="fa fa-circle-o text-blue"></i>日志查看</a></li>
+                <li><a href="{% url 'an_log' %}"><i class="fa fa-circle-o text-blue"></i>日志分析</a></li>
+                <li><a href="http://172.16.126.128:8080/"><i class="fa fa-circle-o text-blue"></i>日志下载</a></li>
               </ul>
             </li>
 

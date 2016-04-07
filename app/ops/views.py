@@ -11,9 +11,9 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from ops.models import server,inventory
-
+import commands,re
+import simplejson as json
 # test enviroment clean nginx cache
-import commands
 def nginx(request,string):
     try:
         m=commands.getoutput(''' ansible %s -m shell -a "sh /opt/script/clean_cache.sh"  ''' %string)
@@ -186,10 +186,50 @@ def comsumer_log(request):
             return render_to_response('mysite/logs/comsumer_log.html',{'result':m})
     else:
         return render_to_response('mysite/logs/comsumer_log.html',context_instance=RequestContext(request))
-#ops
+
 @login_required
-def ops(request):
-    return render_to_response('ops/ops.html')
+def tail_log(request):
+    alllog = commands.getoutput(''' find /tmp -name "*.log" ''').split('\n')
+    if request.method == 'POST':
+        lines = request.POST['lines']
+        logs = request.POST['logs']
+        try:
+            m = commands.getoutput(''' tail -n %s %s  ''' %(lines,logs)).split('\n')
+            return render_to_response('mysite/logs/tail_log.html',
+                                      {'alllog':alllog,'lines':lines,'logs':logs,'result':m},
+                                      context_instance=RequestContext(request))
+        except Exception as m:
+            return render_to_response('mysite/logs/tail_log.html',{'result':m})
+    else:
+        return render_to_response('mysite/logs/tail_log.html',
+                                      {'alllog':alllog},
+                                      context_instance=RequestContext(request))      
+
+@login_required
+def an_log(request):
+    '''目前只处理nginx的access.log'''
+    logs = "/var/log/nginx/access.log".split()
+#    logs = "/tmp/access.log".split()
+    if request.method == 'POST':
+        log = request.POST['logs']
+        httplist=[]
+        f=open(log)
+        ff=f.readlines()
+        d={}
+        for code in ff:
+            httpcode = re.findall(r'HTTP/1.1"(.*)"http',code)
+            if len(httpcode) > 0:
+                httpcode = httpcode[0].split()[0]
+                httplist.append(httpcode)
+        codes = list(set(httplist))
+        for i in codes:
+            if i in httplist:
+                d[i]=httplist.count(i)
+        state = d.keys()
+        times = d.values()
+        piedata = json.dumps(map(list,zip(state,times)))
+        return render_to_response('mysite/logs/an_log.html',{'state':state,'times':times,'logs':log,'piedata':piedata},context_instance=RequestContext(request))
+    return render_to_response('mysite/logs/an_log.html',{'logs':logs},context_instance=RequestContext(request))
 
 #douments pages
 

@@ -1,0 +1,64 @@
+{% include '/var/www/jastme/mysite/templates/header_right.html' %}
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            HighChart
+            <small>analysis nginx access.log</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>HighChart</a></li>
+            <li><a href="#"></a></li>
+            <li class="active"></li>
+          </ol>
+        </section>
+
+          <!-- SELECT2 EXAMPLE -->
+          <form id="logs" method="post">
+          <div class="box box-default">
+            <div class="box-header with-border">
+              <h3 class="box-title">Select2</h3>
+              <div class="box-tools pull-right">
+                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+              </div>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Logs</label>
+                    <select class="form-control select2" style="width: 100%;" name="logs">
+                      {% for log in logs %}
+                      <option>{{ log }}</option>
+                      {% endfor %}
+                    </select>
+                  </div><!-- /.form-group -->
+                  <label>预留位置</label>
+                  <p class="margin">未确定<code>!!!</code></p>
+                   <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" name="lines">
+                    <span class="input-group-btn">
+                      <button class="btn btn-info btn-flat" type="submit">Go!</button>
+                    </span>
+                   </form>
+                   </div><!-- /input-group -->
+                </div><!-- /.col -->
+              </div><!-- /.row -->
+            </div><!-- /.box-body -->
+          </div><!-- /.box -->
+          <h1>
+            <small></small>
+            <code>HighChart show</code>
+          </h1>
+          <section class="content">
+            <div id="container" style="min-width:600px;height:300px"></div>
+          </section>
+          <section class="content">
+            <div id="containerpie" style="min-width:800px;height:500px"></div>
+          </section>
+          </div>
+         </div>
+
+{% include '/var/www/jastme/mysite/templates/highchartfoot.html' %}
