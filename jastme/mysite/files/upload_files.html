@@ -1,0 +1,49 @@
+{% include '/var/www/jastme/mysite/templates/header_right.html' %}
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            上传文件
+            <small>upload files</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>文件上传·</a></li>
+            <li><a href="#"></a></li>
+            <li class="active"></li>
+          </ol>
+        </section>
+
+          <!-- SELECT2 EXAMPLE -->
+          <form id="" method="post" enctype="multipart/form-data">
+          <div class="box box-default">
+            <div class="box-header with-border">
+              <h3 class="box-title">Select2</h3>
+              <div class="box-tools pull-right">
+                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+              </div>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="exampleInputFile">File input</label>
+                      <input type="file" id="exampleInputFile" name="file">
+                      <p class="help-block">支持大文件上传,采用Django操作文件的方法上传</p>
+                      <h1>{{ messages }}</h1>
+                  </div><!-- /.form-group -->
+                    <div class="box-footer">
+                      <button type="submit" class="btn btn-primary">提交</button>
+                    </div>
+                   </form>
+
+                   </div><!-- /input-group -->
+                </div><!-- /.col -->
+              </div><!-- /.row -->
+            </div><!-- /.box-body -->
+          </div><!-- /.box -->
+          </div>
+         </div>
+
+{% include '/var/www/jastme/mysite/templates/highchartfoot.html' %}

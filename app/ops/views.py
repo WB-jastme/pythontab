@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response
 from django.contrib.auth import authenticate, login
 from django.template.loader import get_template
 from django.template import Context,RequestContext
+from app.settings import MEDIA_ROOT
 #from django.template import loader, RequestContext
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
@@ -16,10 +17,12 @@ import simplejson as json
 # test enviroment clean nginx cache
 def nginx(request,string):
     try:
-        m=commands.getoutput(''' ansible %s -m shell -a "sh /opt/script/clean_cache.sh"  ''' %string)
-        return render_to_response('interface/nginx_interface.html',{'result':m})
-    except Exception as e:
-        return render_to_response('interface/nginx_interface.html',{'result':e})
+        m=commands.getoutput(''' ansible %s -m shell -a "sh /opt/script/test.sh"  ''' %string)
+        m=m.split('\n')
+        return render_to_response('mysite/api/test.html',{'result':m})
+    except Exception as m:
+        m=m.split('\n')
+        return render_to_response('mysite/api/test.html',{'result':m})
         
 
 def index(request):
@@ -228,9 +231,21 @@ def an_log(request):
         state = d.keys()
         times = d.values()
         piedata = json.dumps(map(list,zip(state,times)))
-        return render_to_response('mysite/logs/an_log.html',{'state':state,'times':times,'logs':log,'piedata':piedata},context_instance=RequestContext(request))
+        return render_to_response('mysite/logs/an_log.html',{'state':state,'times':times,'logs':logs,'piedata':piedata},context_instance=RequestContext(request))
     return render_to_response('mysite/logs/an_log.html',{'logs':logs},context_instance=RequestContext(request))
 
+def upload(request):
+    if request.method == 'POST':
+        if 'file' in request.FILES:
+            files = request.FILES['file']
+            fd = open('%s%s' % (MEDIA_ROOT,files), 'wb')
+            print type(files)
+            for content in files.chunks():
+                fd.write(content)  
+                fd.close() 
+            return render_to_response('mysite/files/upload_files.html',{'message':'upload Done'},context_instance=RequestContext(request))
+        return render_to_response('mysite/files/upload_files.html',{'message':'no file select'},context_instance=RequestContext(request))
+    return render_to_response('mysite/files/upload_files.html')
 #douments pages
 
 #@login_required

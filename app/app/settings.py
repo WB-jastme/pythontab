@@ -109,3 +109,4 @@ STATIC_ROOT = '/static/'
 TEMPLATE_DIRS =(
                 '/var/www/jastme/',
 )
+MEDIA_ROOT = '/tmp/'
