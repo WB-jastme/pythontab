@@ -12,7 +12,7 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from ops.models import server,inventory
-import commands,re
+import commands,re,psutil
 import simplejson as json
 # test enviroment clean nginx cache
 def nginx(request,string):
@@ -47,10 +47,22 @@ def mylogout(request):
     auth.logout(request)
     return HttpResponseRedirect('/')
 
-#index
+#dashboard
 @login_required
 def main(request):
-    return render_to_response('mysite/root/index.html',{'user':request.user},context_instance=RequestContext(request))
+    pid=commands.getoutput("ps -ef | grep -v grep |grep uwsgi | awk '{print $2}'")
+    uwsgi=psutil.Process(int(pid))
+    cpu = uwsgi.cpu_percent()
+    memory = str(uwsgi.memory_full_info().rss/1024/1024)
+    rc = uwsgi.io_counters().read_count
+    wc = uwsgi.io_counters().write_count
+    return render_to_response('mysite/root/index.html',
+    {'user':request.user,
+     'cpu':cpu,
+     'memory':memory,
+     'rc':rc,
+     'wc':wc
+    },context_instance=RequestContext(request))
 
 @login_required
 def IDC_SC(request):
@@ -239,10 +251,9 @@ def upload(request):
         if 'file' in request.FILES:
             files = request.FILES['file']
             fd = open('%s%s' % (MEDIA_ROOT,files), 'wb')
-            print type(files)
             for content in files.chunks():
                 fd.write(content)  
-                fd.close() 
+            fd.close() 
             return render_to_response('mysite/files/upload_files.html',{'message':'upload Done'},context_instance=RequestContext(request))
         return render_to_response('mysite/files/upload_files.html',{'message':'no file select'},context_instance=RequestContext(request))
     return render_to_response('mysite/files/upload_files.html')

@@ -4,7 +4,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            关于本机
+             Uwsgi的监控
             <small>Optional description</small>
           </h1>
           <ol class="breadcrumb">
@@ -15,17 +15,18 @@
 
         <!-- Main content -->
         <section class="content">
+          <div><h3>Uwsgi</h3></div>
           <!-- Small boxes (Stat box) -->
           <div class="row">
             <div class="col-lg-3 col-xs-6">
               <!-- small box -->
               <div class="small-box bg-aqua">
                 <div class="inner">
-                  <h3>100度</h3>
-                  <p>CPU温度</p>
+                  <h3>{{ cpu }}</h3>
+                  <p>CPU使用率</p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-bag"></i>
+                  <i class="fa fa-meh-o"></i>
                 </div>
                 <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
               </div>
@@ -34,8 +35,8 @@
               <!-- small box -->
               <div class="small-box bg-green">
                 <div class="inner">
-                  <h3>53<sup style="font-size: 20px">%</sup></h3>
-                  <p>剩余内存</p>
+                  <h3>{{ memory }}MB<sup style="font-size: 20px"></sup></h3>
+                  <p>消耗内存</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
@@ -47,11 +48,11 @@
               <!-- small box -->
               <div class="small-box bg-yellow">
                 <div class="inner">
-                  <h3>44</h3>
-                  <p>剩余磁盘空间</p>
+                  <h3>read_count={{ rc }}</h3>
+                  <p>uwsgi磁盘IO消耗</p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-person-add"></i>
+                  <i class="fa fa-send"></i>
                 </div>
                 <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
               </div>
@@ -60,11 +61,11 @@
               <!-- small box -->
               <div class="small-box bg-red">
                 <div class="inner">
-                  <h3>65</h3>
-                  <p>进程总数</p>
+                  <h3> write_count={{ wc }}</h3>
+                  <p>uwsgi磁盘IO消耗</p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-pie-graph"></i>
+                  <i class="fa fa-apple"></i>
                 </div>
                 <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
               </div>
